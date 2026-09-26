@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Formatador de Texto e Planilhas",
+  "version": "1.0.0",
+  "description": "Extensão para formatar rapidamente CPFs, CNPJs, letras maiúsculas/minúsculas e acentos em planilhas e páginas web.",
+  "permissions": [
+    "clipboardRead",
+    "clipboardWrite",
+    "contextMenus"
+  ],
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_title": "Formatador de Texto"
+  },
+  "background": {
+    "service_worker": "src/background/background.js",
+    "type": "module"
+  }
+}
