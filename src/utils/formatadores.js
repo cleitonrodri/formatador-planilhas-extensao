@@ -7,18 +7,33 @@ export function apenasNumeros(texto) {
   return String(texto || '').replace(/\D/g, '');
 }
 
-// 1. Formata CPF (000.000.000-00)
+// 1. Formata CPF (000.000.000-00) com preenchimento de zeros à esquerda se faltar
 export function formatarCPF(texto) {
-  const digitos = apenasNumeros(texto);
-  if (digitos.length !== 11) return texto;
+  let digitos = apenasNumeros(texto);
+  if (!digitos) return texto;
+
+  // Se a planilha cortou os zeros à esquerda (ex: 9 ou 10 dígitos), preenche até 11 dígitos
+  if (digitos.length > 0 && digitos.length <= 11) {
+    digitos = digitos.padStart(11, '0');
+  } else {
+    return texto;
+  }
+
   return digitos.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
 }
 
-// 2. Mascara CPF (LGPD) com modos configuráveis
+// 2. Mascara CPF (LGPD) com zeros à esquerda garantidos
 // Modos: 'meio' (123.***.***-00), 'pontas' (***.456.789-**), 'ocultar_tudo' (***.***.***-00)
 export function mascararCPF(texto, modo = 'meio') {
-  const digitos = apenasNumeros(texto);
-  if (digitos.length !== 11) return texto;
+  let digitos = apenasNumeros(texto);
+  if (!digitos) return texto;
+
+  // Preenche zeros à esquerda até 11 dígitos
+  if (digitos.length > 0 && digitos.length <= 11) {
+    digitos = digitos.padStart(11, '0');
+  } else {
+    return texto;
+  }
 
   switch (modo) {
     case 'meio':
@@ -32,10 +47,18 @@ export function mascararCPF(texto, modo = 'meio') {
   }
 }
 
-// 3. Formata CNPJ (00.000.000/0000-00)
+// 3. Formata CNPJ (00.000.000/0000-00) com preenchimento de zeros à esquerda se faltar
 export function formatarCNPJ(texto) {
-  const digitos = apenasNumeros(texto);
-  if (digitos.length !== 14) return texto;
+  let digitos = apenasNumeros(texto);
+  if (!digitos) return texto;
+
+  // Se a planilha cortou os zeros do CNPJ (12 ou 13 dígitos), preenche até 14
+  if (digitos.length > 0 && digitos.length <= 14) {
+    digitos = digitos.padStart(14, '0');
+  } else {
+    return texto;
+  }
+
   return digitos.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
 }
 

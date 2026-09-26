@@ -6,10 +6,13 @@
 }
 
 body {
-  width: 360px;
+  width: 100%;
+  min-width: 280px;
+  height: 100vh;
   background-color: #f8fafc;
   color: #1e293b;
   padding: 14px;
+  overflow-y: auto;
 }
 
 /* Cabeçalho */
@@ -65,7 +68,7 @@ body {
 
 #entrada-texto {
   width: 100%;
-  height: 95px;
+  height: 150px;
   padding: 8px;
   border: 1px solid #cbd5e1;
   border-radius: 6px;

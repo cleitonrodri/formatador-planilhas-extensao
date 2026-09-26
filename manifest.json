@@ -1,16 +1,18 @@
 {
   "manifest_version": 3,
   "name": "Formatador de Texto e Planilhas",
-  "version": "1.0.0",
-  "description": "Extensão para formatar rapidamente CPFs, CNPJs, letras maiúsculas/minúsculas e acentos em planilhas e páginas web.",
+  "version": "1.1.0",
+  "description": "Painel lateral fixo para formatação rápida de textos, CPFs, nomes e números para Google Planilhas e web.",
   "permissions": [
     "clipboardRead",
     "clipboardWrite",
-    "contextMenus"
+    "sidePanel"
   ],
+  "side_panel": {
+    "default_path": "src/popup/popup.html"
+  },
   "action": {
-    "default_popup": "src/popup/popup.html",
-    "default_title": "Formatador de Texto"
+    "default_title": "Abrir Painel do Formatador"
   },
   "background": {
     "service_worker": "src/background/background.js",
