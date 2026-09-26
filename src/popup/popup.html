@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formatador de Texto e Planilhas</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="cabecalho">
+    <h2>Formatador de Texto</h2>
+    <span class="subtitulo">Produtividade para Planilhas & Web</span>
+  </header>
+
+  <main class="conteudo">
+    <!-- Área de Entrada de Texto -->
+    <div class="grupo-campo">
+      <div class="barra-ferramentas-texto">
+        <label for="entrada-texto">Texto / Dados:</label>
+        <button id="btn-colar" type="button" class="btn-acao-rapida" title="Colar da Área de Transferência">
+          📋 Colar
+        </button>
+      </div>
+      <textarea id="entrada-texto" placeholder="Cole aqui seu texto, lista de CPFs, nomes ou valores..."></textarea>
+    </div>
+
+    <!-- Seção de Ações: Documentos e Números -->
+    <div class="secao-acoes">
+      <span class="rotulo-secao">Documentos e Números</span>
+      <div class="grade-botoes">
+        <button id="btn-formatar-cpf" class="btn">Formatar CPF</button>
+        <button id="btn-formatar-cnpj" class="btn">Formatar CNPJ</button>
+        <button id="btn-formatar-telefone" class="btn">Telefone / Celular</button>
+        <button id="btn-apenas-numeros" class="btn">Apenas Números</button>
+      </div>
+
+      <!-- Configuração da Máscara de CPF -->
+      <div class="linha-mascara">
+        <select id="seletor-modo-mascara" class="seletor">
+          <option value="meio">Máscara: 123.***.***-00</option>
+          <option value="pontas">Máscara: ***.456.789-**</option>
+          <option value="ocultar_tudo">Máscara: ***.***.***-00</option>
+        </select>
+        <button id="btn-mascarar-cpf" class="btn btn-destaque">Mascarar CPF</button>
+      </div>
+    </div>
+
+    <!-- Seção de Ações: Transformações de Texto -->
+    <div class="secao-acoes">
+      <span class="rotulo-secao">Formatação de Texto</span>
+      <div class="grade-botoes">
+        <button id="btn-maiusculas" class="btn">MAIÚSCULAS</button>
+        <button id="btn-minusculas" class="btn">minúsculas</button>
+        <button id="btn-primeira-maiuscula" class="btn">Primeira maiúscula</button>
+        <button id="btn-titulo" class="btn">Cada Palavra Maiúscula</button>
+        <button id="btn-remover-acentos" class="btn">Remover Acentos</button>
+        <button id="btn-limpar-espacos" class="btn">Limpar Espaços Extras</button>
+      </div>
+    </div>
+
+    <!-- Botões de Ação Final -->
+    <footer class="rodape-acoes">
+      <button id="btn-limpar-tudo" class="btn btn-secundario">Limpar</button>
+      <button id="btn-copiar" class="btn btn-primario">Copiar Resultado</button>
+    </footer>
+
+    <!-- Notificação Flutuante -->
+    <div id="alerta-notificacao" class="alerta oculto">Copiado com sucesso!</div>
+  </main>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
