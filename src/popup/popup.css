@@ -5,14 +5,28 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-body {
-  width: 100%;
-  min-width: 280px;
+/* O segredo para fluidez total na barra lateral */
+html, body {
+  width: 100%;          /* Ocupa exatamente a largura que o mouse definir */
+  min-width: 250px;     /* Largura mínima para os botões não quebrarem */
   height: 100vh;
   background-color: #f8fafc;
   color: #1e293b;
-  padding: 14px;
+  overflow-x: hidden;   /* Evita barra de rolagem horizontal indesejada */
   overflow-y: auto;
+}
+
+body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Garante que o campo de texto acompanhe o esticar da janela */
+#entrada-texto {
+  width: 100%;
+  min-height: 120px;
+  /* ... mantenha o restante das propriedades ... */
 }
 
 /* Cabeçalho */
