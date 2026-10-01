@@ -35,6 +35,9 @@ const btnTitulo = document.getElementById('btn-titulo');
 const btnRemoverAcentos = document.getElementById('btn-remover-acentos');
 const btnLimparEspacos = document.getElementById('btn-limpar-espacos');
 
+const btnRemoverDuplicadas = document.getElementById('btn-remover-duplicadas');
+const spanContador = document.getElementById('contador');
+
 // Variável para guardar os dados originais puros (evita perda de dados ao mascarar)
 let textoOriginalCache = '';
 
@@ -47,6 +50,17 @@ function exibirNotificacao(mensagem) {
   setTimeout(() => {
     alertaNotificacao.classList.add('oculto');
   }, 2000);
+}
+
+/**
+ * Atualiza o contador de linhas e caracteres
+ */
+function atualizarContador() {
+  const texto = entradaTexto.value;
+  const caracteres = texto.length;
+  // Se estiver vazio é 0, se não, conta quantas quebras de linha existem + 1
+  const linhas = texto === '' ? 0 : texto.split('\n').length;
+  spanContador.textContent = `Linhas: ${linhas} | Caract.: ${caracteres}`;
 }
 
 /**
@@ -71,6 +85,7 @@ function aplicarTransformacao(funcaoTransformadora, usarCache = false) {
   const linhas = valorParaProcessar.split('\n');
   const resultado = linhas.map(linha => funcaoTransformadora(linha)).join('\n');
   entradaTexto.value = resultado;
+  atualizarContador();
 }
 
 // Conexão dos botões de formatação
@@ -108,6 +123,7 @@ btnColar.addEventListener('click', async () => {
 // Atualiza o cache também se o usuário digitar/colar manualmente na caixa
 entradaTexto.addEventListener('input', () => {
   textoOriginalCache = entradaTexto.value;
+  atualizarContador();
 });
 
 // Botão Copiar Resultado
@@ -123,9 +139,24 @@ btnCopiar.addEventListener('click', async () => {
   }
 });
 
+// Botão Remover Linhas Duplicadas
+btnRemoverDuplicadas.addEventListener('click', () => {
+  if (!entradaTexto.value) return;
+  
+  const linhas = entradaTexto.value.split('\n');
+  // O 'Set' do JavaScript filtra automaticamente valores únicos em uma lista
+  const linhasUnicas = [...new Set(linhas)];
+  
+  entradaTexto.value = linhasUnicas.join('\n');
+  textoOriginalCache = entradaTexto.value; // Atualiza o cache para não perder os dados
+  atualizarContador();
+  exibirNotificacao(`${linhas.length - linhasUnicas.length} duplicatas removidas!`);
+});
+
 // Botão Limpar Tudo
 btnLimparTudo.addEventListener('click', () => {
   entradaTexto.value = '';
   textoOriginalCache = '';
+  atualizarContador();
   entradaTexto.focus();
 });
