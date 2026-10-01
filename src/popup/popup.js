@@ -35,6 +35,9 @@ const btnTitulo = document.getElementById('btn-titulo');
 const btnRemoverAcentos = document.getElementById('btn-remover-acentos');
 const btnLimparEspacos = document.getElementById('btn-limpar-espacos');
 
+// Variável para guardar os dados originais puros (evita perda de dados ao mascarar)
+let textoOriginalCache = '';
+
 /**
  * Exibe notificação temporária
  */
@@ -47,13 +50,25 @@ function exibirNotificacao(mensagem) {
 }
 
 /**
- * Aplica uma transformação linha por linha no texto (útil para dados de planilhas)
+ * Aplica uma transformação linha por linha
  */
-function aplicarTransformacao(funcaoTransformadora) {
-  const valorAtual = entradaTexto.value;
-  if (!valorAtual) return;
+function aplicarTransformacao(funcaoTransformadora, usarCache = false) {
+  // Se for uma operação destructiva como máscara, atualiza o cache com o valor atual limpo se necessário,
+  // ou usa o cache original para permitir alternar entre máscaras livremente.
+  let valorParaProcessar = entradaTexto.value;
+  
+  if (usarCache) {
+    if (!textoOriginalCache && valorParaProcessar) {
+      textoOriginalCache = valorParaProcessar; // Guarda o estado original antes do primeiro máscara
+    }
+    if (textoOriginalCache) {
+      valorParaProcessar = textoOriginalCache; // Sempre usa a base original limpa
+    }
+  }
 
-  const linhas = valorAtual.split('\n');
+  if (!valorParaProcessar) return;
+
+  const linhas = valorParaProcessar.split('\n');
   const resultado = linhas.map(linha => funcaoTransformadora(linha)).join('\n');
   entradaTexto.value = resultado;
 }
@@ -64,9 +79,10 @@ btnFormatarCNPJ.addEventListener('click', () => aplicarTransformacao(formatarCNP
 btnFormatarTelefone.addEventListener('click', () => aplicarTransformacao(formatarTelefone));
 btnApenasNumeros.addEventListener('click', () => aplicarTransformacao(apenasNumeros));
 
+// Botão de mascarar usa o cache (usarCache = true) para permitir alternar entre opções livremente
 btnMascararCPF.addEventListener('click', () => {
   const modo = seletorModoMascara.value;
-  aplicarTransformacao((texto) => mascararCPF(texto, modo));
+  aplicarTransformacao((texto) => mascararCPF(texto, modo), true);
 });
 
 btnMaiusculas.addEventListener('click', () => aplicarTransformacao(paraMaiusculas));
@@ -81,11 +97,17 @@ btnColar.addEventListener('click', async () => {
   try {
     const textoTransferencia = await navigator.clipboard.readText();
     entradaTexto.value = textoTransferencia;
+    textoOriginalCache = textoTransferencia; // Atualiza o cache com o novo conteúdo colado
     exibirNotificacao('Texto colado!');
   } catch (erro) {
     entradaTexto.focus();
     exibirNotificacao('Permissão necessária ou use Ctrl+V');
   }
+});
+
+// Atualiza o cache também se o usuário digitar/colar manualmente na caixa
+entradaTexto.addEventListener('input', () => {
+  textoOriginalCache = entradaTexto.value;
 });
 
 // Botão Copiar Resultado
@@ -104,5 +126,6 @@ btnCopiar.addEventListener('click', async () => {
 // Botão Limpar Tudo
 btnLimparTudo.addEventListener('click', () => {
   entradaTexto.value = '';
+  textoOriginalCache = '';
   entradaTexto.focus();
 });
