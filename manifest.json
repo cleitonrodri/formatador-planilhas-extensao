@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
   "name": "Formatador de Texto e Planilhas",
-  "version": "1.1.0",
-  "description": "Painel lateral fixo para formatação rápida de textos, CPFs, nomes e números para Google Planilhas e web.",
+  "version": "1.2.0",
+  "minimum_chrome_version": "114",
+  "description": "Painel lateral fixo para formatação rápida de textos, CPFs, telefones, e-mails e nomes para Google Planilhas e web.",
   "permissions": [
     "clipboardRead",
     "clipboardWrite",

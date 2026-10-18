@@ -22,13 +22,6 @@ body {
   flex-direction: column;
 }
 
-/* Garante que o campo de texto acompanhe o esticar da janela */
-#entrada-texto {
-  width: 100%;
-  min-height: 120px;
-  /* ... mantenha o restante das propriedades ... */
-}
-
 /* Cabeçalho */
 .cabecalho {
   margin-bottom: 12px;
@@ -52,19 +45,27 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .barra-ferramentas-texto {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 6px;
 }
 
 .barra-ferramentas-texto label {
   font-size: 11px;
   font-weight: 600;
   color: #475569;
+}
+
+.acoes-topo {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .btn-acao-rapida {
@@ -80,23 +81,135 @@ body {
   text-decoration: underline;
 }
 
-#entrada-texto {
-  width: 100%;
-  height: 150px;
-  padding: 8px;
+.btn-acao-rapida:disabled {
+  color: #94a3b8;
+  cursor: default;
+  text-decoration: none;
+}
+
+/* ------------------------------------------------------------------
+   Editor: calha numerada + realce colorido (atrás) + textarea (na frente)
+   Todos usam a mesma altura de linha para o realce ficar alinhado.
+   ------------------------------------------------------------------ */
+.editor {
+  --altura-linha: 18px;
+  --largura-calha: 34px;
+  display: flex;
+  height: 170px;
+  min-height: 100px;
+  resize: vertical;          /* o usuário pode esticar o editor para baixo */
+  overflow: hidden;
   border: 1px solid #cbd5e1;
   border-radius: 6px;
-  font-size: 12px;
-  resize: vertical;
   background-color: #ffffff;
-  color: #0f172a;
-  outline: none;
   transition: border-color 0.2s ease;
 }
 
-#entrada-texto:focus {
+.editor:focus-within {
   border-color: #2563eb;
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.calha {
+  flex: none;
+  width: var(--largura-calha);
+  overflow: hidden;
+  background-color: #f1f5f9;
+  border-right: 1px solid #e2e8f0;
+}
+
+.calha-conteudo {
+  /* o espaço extra embaixo compensa a barra de rolagem horizontal do textarea */
+  padding: 8px 0 32px;
+}
+
+.cl {
+  height: var(--altura-linha);
+  line-height: var(--altura-linha);
+  padding-right: 6px;
+  text-align: right;
+  font-size: 10px;
+  color: #475569;
+  font-variant-numeric: tabular-nums;
+  white-space: pre;
+}
+
+.cl.dup {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.cl.prob {
+  font-weight: 700;
+  color: #b91c1c;
+}
+
+.editor-corpo {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.realce {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.realce-conteudo {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+  padding: 8px 0 32px;
+}
+
+.rl {
+  height: var(--altura-linha);
+  line-height: var(--altura-linha);
+  padding: 0 8px;
+  white-space: pre;
+  color: transparent;      /* o texto real é o do textarea; aqui só importa a cor de fundo */
+}
+
+/* Linha com problema: sublinhado ondulado vermelho */
+.rl.prob {
+  text-decoration: underline wavy #dc2626;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+
+/* Cores dos grupos de duplicados (cada valor repetido ganha uma cor) */
+.g0 { background-color: #fde68a; }
+.g1 { background-color: #bfdbfe; }
+.g2 { background-color: #bbf7d0; }
+.g3 { background-color: #fbcfe8; }
+.g4 { background-color: #ddd6fe; }
+.g5 { background-color: #fed7aa; }
+
+/* O realce e o campo de texto precisam ter exatamente a mesma tipografia */
+#entrada-texto,
+.rl {
+  font-size: 12px;
+  tab-size: 8;
+}
+
+#entrada-texto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: #0f172a;
+  font-size: 12px;
+  line-height: var(--altura-linha);
+  white-space: pre;
+  overflow: auto;
+  resize: none;
+  outline: none;
 }
 
 /* Seções e Botões */
@@ -109,8 +222,14 @@ body {
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
-  color: #94a3b8;
+  color: #64748b;
   letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.dica {
+  font-size: 11px;
+  color: #64748b;
   margin-bottom: 6px;
 }
 
@@ -118,6 +237,10 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 6px;
+}
+
+.ocupa-linha {
+  grid-column: span 2;
 }
 
 .linha-mascara {
@@ -135,6 +258,26 @@ body {
   background-color: #ffffff;
   color: #334155;
   outline: none;
+}
+
+/* Seletor de coluna */
+.linha-coluna {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px;
+  border-radius: 6px;
+}
+
+.linha-coluna label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.linha-coluna.chamar-atencao {
+  background-color: #fef3c7;
+  box-shadow: 0 0 0 2px #f59e0b;
 }
 
 /* Estilos de Botões */
@@ -206,6 +349,8 @@ body {
   bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
+  max-width: calc(100% - 24px);
+  text-align: center;
   background-color: #0f172a;
   color: #ffffff;
   padding: 6px 12px;
@@ -213,18 +358,98 @@ body {
   font-size: 11px;
   font-weight: 500;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  transition: opacity 0.2s ease;
+  z-index: 10;
 }
 
 .oculto {
   display: none;
 }
+
 /* Estilo do Contador */
 .contador-rodape {
   text-align: right;
   font-size: 10px;
   font-weight: 500;
-  color: #94a3b8;
+  color: #64748b;
   margin-top: 4px;
   padding-right: 2px;
+}
+
+/* ------------------------------------------------------------------
+   Relatório: resultado da última ação, problemas e duplicados
+   ------------------------------------------------------------------ */
+.relatorio {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background-color: #ffffff;
+}
+
+/* Some quando não há nada para mostrar */
+.relatorio:not(:has(:not(.oculto))) {
+  display: none;
+}
+
+.resumo {
+  font-size: 11px;
+  color: #334155;
+}
+
+.resumo .ok {
+  color: #15803d;
+  font-weight: 600;
+}
+
+.resumo .aviso {
+  color: #b45309;
+  font-weight: 600;
+}
+
+.detalhes {
+  font-size: 11px;
+}
+
+.detalhes summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #334155;
+}
+
+.lista-itens {
+  list-style: none;
+  margin-top: 4px;
+  max-height: 140px;
+  overflow-y: auto;
+}
+
+.lista-itens li {
+  padding: 3px 0;
+  font-size: 11px;
+  color: #475569;
+  border-top: 1px solid #f1f5f9;
+}
+
+.link-linha {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: #2563eb;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.amostra-cor {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 4px;
+  border: 1px solid #64748b;
+  border-radius: 2px;
+  vertical-align: -1px;
 }
