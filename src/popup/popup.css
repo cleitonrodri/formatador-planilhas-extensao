@@ -36,7 +36,7 @@ body {
 }
 
 .cabecalho .subtitulo {
-  font-size: 11px;
+  font-size: 12px;
   color: #64748b;
 }
 
@@ -55,10 +55,33 @@ body {
   gap: 6px;
 }
 
-.barra-ferramentas-texto label {
-  font-size: 11px;
-  font-weight: 600;
-  color: #475569;
+/* Cabeçalho de passo: círculo numerado + título (1 Cole, 2 Escolha, 3 Copie) */
+.passo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.passo-num {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #2563eb;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.passo-secao {
+  margin: 4px 0 8px;
+  padding-top: 10px;
+  border-top: 1px solid #e2e8f0;
 }
 
 .acoes-topo {
@@ -71,7 +94,7 @@ body {
 .btn-acao-rapida {
   background: none;
   border: none;
-  font-size: 11px;
+  font-size: 12px;
   color: #2563eb;
   cursor: pointer;
   font-weight: 600;
@@ -219,7 +242,7 @@ body {
 
 .rotulo-secao {
   display: block;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   color: #64748b;
@@ -228,30 +251,38 @@ body {
 }
 
 .dica {
-  font-size: 11px;
+  font-size: 12px;
   color: #64748b;
   margin-bottom: 6px;
 }
 
 .grade-botoes {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* 2 colunas no painel largo, 1 coluna quando o painel é estreito */
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 6px;
-}
-
-.ocupa-linha {
-  grid-column: span 2;
 }
 
 .linha-mascara {
   display: flex;
+  flex-wrap: wrap;           /* em painel estreito o botão desce para a linha de baixo */
   gap: 6px;
   margin-top: 6px;
 }
 
+.linha-mascara .btn {
+  flex: 1 1 auto;
+}
+
+/* O rótulo da máscara é longo: o campo ocupa a linha toda e o botão fica logo abaixo */
+#seletor-modo-mascara {
+  flex-basis: 100%;
+}
+
 .seletor {
-  flex: 1;
-  font-size: 11px;
+  flex: 1 1 150px;
+  min-width: 0;
+  font-size: 12px;
   padding: 6px;
   border: 1px solid #cbd5e1;
   border-radius: 5px;
@@ -270,7 +301,7 @@ body {
 }
 
 .linha-coluna label {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   color: #475569;
 }
@@ -282,8 +313,13 @@ body {
 
 /* Estilos de Botões */
 .btn {
-  padding: 7px 6px;
-  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 6px;
+  font-size: 12px;
   font-weight: 500;
   border: 1px solid #e2e8f0;
   border-radius: 5px;
@@ -304,6 +340,32 @@ body {
   transform: scale(0.98);
 }
 
+/* Título do botão + exemplo "antes → depois" logo abaixo */
+.btn-titulo {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* O exemplo é só apoio: pequeno e em cinza suave, para o nome da função se destacar */
+.btn-exemplo {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: #7a899e;
+  overflow-wrap: break-word;   /* quebra nos espaços (antes/depois da seta), não no meio do número */
+}
+
+.btn-exemplo span {
+  white-space: nowrap;         /* cada lado do exemplo fica inteiro; a quebra é só na seta */
+}
+
+/* Ao passar o mouse (ou focar com o teclado) o exemplo fica mais legível */
+.btn:hover .btn-exemplo,
+.btn:focus-visible .btn-exemplo {
+  color: #475569;
+}
+
 .btn-destaque {
   background-color: #eff6ff;
   border-color: #bfdbfe;
@@ -318,10 +380,16 @@ body {
 /* Rodapé */
 .rodape-acoes {
   display: flex;
+  flex-direction: column;
   gap: 8px;
   margin-top: 12px;
-  padding-top: 8px;
+  padding-top: 10px;
   border-top: 1px solid #e2e8f0;
+}
+
+.rodape-botoes {
+  display: flex;
+  gap: 8px;
 }
 
 .btn-secundario {
@@ -355,7 +423,7 @@ body {
   color: #ffffff;
   padding: 6px 12px;
   border-radius: 20px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   z-index: 10;
@@ -368,7 +436,7 @@ body {
 /* Estilo do Contador */
 .contador-rodape {
   text-align: right;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
   color: #64748b;
   margin-top: 4px;
@@ -390,12 +458,12 @@ body {
 }
 
 /* Some quando não há nada para mostrar */
-.relatorio:not(:has(:not(.oculto))) {
+.relatorio:not(:has(> :not(.oculto))) {
   display: none;
 }
 
 .resumo {
-  font-size: 11px;
+  font-size: 12px;
   color: #334155;
 }
 
@@ -410,7 +478,7 @@ body {
 }
 
 .detalhes {
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .detalhes summary {
@@ -428,7 +496,7 @@ body {
 
 .lista-itens li {
   padding: 3px 0;
-  font-size: 11px;
+  font-size: 12px;
   color: #475569;
   border-top: 1px solid #f1f5f9;
 }
@@ -437,7 +505,7 @@ body {
   background: none;
   border: none;
   padding: 0;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   color: #2563eb;
   cursor: pointer;

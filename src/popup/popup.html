@@ -9,14 +9,14 @@
 <body>
   <header class="cabecalho">
     <h2>Formatador de Texto</h2>
-    <span class="subtitulo">Produtividade para Planilhas & Web</span>
+    <span class="subtitulo">Deixe os dados da planilha no mesmo padrão</span>
   </header>
 
   <main class="conteudo">
-    <!-- Área de Entrada de Texto -->
+    <!-- PASSO 1: colar os dados -->
     <div class="grupo-campo">
       <div class="barra-ferramentas-texto">
-        <label for="entrada-texto">Texto / Dados:</label>
+        <label for="entrada-texto" class="passo"><span class="passo-num" aria-hidden="true">1</span> Cole os dados</label>
         <div class="acoes-topo">
           <button id="btn-desfazer" type="button" class="btn-acao-rapida" title="Desfazer (Ctrl+Z)" disabled>↩ Desfazer</button>
           <button id="btn-refazer" type="button" class="btn-acao-rapida" title="Refazer (Ctrl+Y)" disabled>↪ Refazer</button>
@@ -33,7 +33,7 @@
           <div class="realce" id="realce" aria-hidden="true">
             <div class="realce-conteudo" id="realce-conteudo"></div>
           </div>
-          <textarea id="entrada-texto" wrap="off" spellcheck="false" placeholder="Cole aqui seu texto, lista de CPFs, nomes ou valores..."></textarea>
+          <textarea id="entrada-texto" wrap="off" spellcheck="false" placeholder="Copie as células da planilha&#10;(Ctrl+C) e cole aqui (Ctrl+V).&#10;&#10;Pode ser uma lista de CPFs,&#10;nomes, telefones ou e-mails."></textarea>
         </div>
       </div>
 
@@ -62,22 +62,36 @@
       </details>
     </section>
 
-    <!-- Seção de Ações: Documentos e Números -->
+    <!-- PASSO 2: escolher o que fazer -->
+    <h3 class="passo passo-secao"><span class="passo-num" aria-hidden="true">2</span> Escolha o que fazer</h3>
+
     <div class="secao-acoes">
-      <span class="rotulo-secao">Documentos e Contatos</span>
+      <span class="rotulo-secao">CPF, telefone e e-mail</span>
       <div class="grade-botoes">
-        <button id="btn-formatar-cpf" class="btn">Formatar CPF</button>
-        <button id="btn-formatar-telefone" class="btn">Telefone / Celular</button>
-        <button id="btn-formatar-email" class="btn">Padronizar E-mail</button>
-        <button id="btn-apenas-numeros" class="btn">Apenas Números</button>
+        <button id="btn-formatar-cpf" class="btn">
+          <span class="btn-titulo">Colocar CPF no padrão</span>
+          <span class="btn-exemplo"><span>12345678909 →</span> <span>123.456.789-09</span></span>
+        </button>
+        <button id="btn-formatar-telefone" class="btn">
+          <span class="btn-titulo">Telefone / Celular</span>
+          <span class="btn-exemplo"><span>11912345678 →</span> <span>(11) 91234-5678</span></span>
+        </button>
+        <button id="btn-formatar-email" class="btn">
+          <span class="btn-titulo">Padronizar E-mail</span>
+          <span class="btn-exemplo"><span>Ana@Gmail.COM →</span> <span>ana@gmail.com</span></span>
+        </button>
+        <button id="btn-apenas-numeros" class="btn">
+          <span class="btn-titulo">Deixar só números</span>
+          <span class="btn-exemplo"><span>(11) 9123-4567 →</span> <span>1191234567</span></span>
+        </button>
       </div>
 
       <!-- Configuração da Máscara de CPF -->
       <div class="linha-mascara">
         <select id="seletor-modo-mascara" class="seletor" aria-label="Modo da máscara de CPF">
-          <option value="meio">Máscara: 123.***.***-00</option>
-          <option value="pontas">Máscara: ***.456.789-**</option>
-          <option value="so_final">Máscara: ***.***.***-00</option>
+          <option value="meio">Esconder o meio: 123.***.***-09</option>
+          <option value="pontas">Esconder as pontas: ***.456.789-**</option>
+          <option value="so_final">Mostrar só o final: ***.***.***-09</option>
         </select>
         <button id="btn-mascarar-cpf" class="btn btn-destaque">Mascarar CPF</button>
       </div>
@@ -85,20 +99,38 @@
 
     <!-- Seção de Ações: Transformações de Texto -->
     <div class="secao-acoes">
-      <span class="rotulo-secao">Formatação de Texto</span>
+      <span class="rotulo-secao">Nomes e textos</span>
       <div class="grade-botoes">
-        <button id="btn-maiusculas" class="btn">MAIÚSCULAS</button>
-        <button id="btn-minusculas" class="btn">minúsculas</button>
-        <button id="btn-primeira-maiuscula" class="btn">Primeira maiúscula</button>
-        <button id="btn-titulo" class="btn">Cada Palavra Maiúscula</button>
-        <button id="btn-remover-acentos" class="btn">Remover Acentos</button>
-        <button id="btn-limpar-espacos" class="btn">Limpar Espaços Extras</button>
+        <button id="btn-titulo" class="btn">
+          <span class="btn-titulo">Cada Palavra Maiúscula</span>
+          <span class="btn-exemplo"><span>maria da silva →</span> <span>Maria da Silva</span></span>
+        </button>
+        <button id="btn-limpar-espacos" class="btn">
+          <span class="btn-titulo">Limpar espaços extras</span>
+          <span class="btn-exemplo"><span>"ana&nbsp;&nbsp;&nbsp;silva " →</span> <span>"ana silva"</span></span>
+        </button>
+        <button id="btn-maiusculas" class="btn">
+          <span class="btn-titulo">MAIÚSCULAS</span>
+          <span class="btn-exemplo"><span>ana →</span> <span>ANA</span></span>
+        </button>
+        <button id="btn-minusculas" class="btn">
+          <span class="btn-titulo">minúsculas</span>
+          <span class="btn-exemplo"><span>ANA →</span> <span>ana</span></span>
+        </button>
+        <button id="btn-primeira-maiuscula" class="btn">
+          <span class="btn-titulo">Primeira maiúscula</span>
+          <span class="btn-exemplo"><span>OLÁ, TUDO BEM →</span> <span>Olá, tudo bem</span></span>
+        </button>
+        <button id="btn-remover-acentos" class="btn">
+          <span class="btn-titulo">Remover acentos</span>
+          <span class="btn-exemplo"><span>João →</span> <span>Joao</span></span>
+        </button>
       </div>
     </div>
 
     <!-- Seção de Duplicados -->
     <div class="secao-acoes">
-      <span class="rotulo-secao">Duplicados</span>
+      <span class="rotulo-secao">Linhas repetidas</span>
       <p class="dica">As linhas repetidas ficam coloridas no campo acima, automaticamente.</p>
       <div class="linha-mascara">
         <select id="seletor-tipo-duplicado" class="seletor" aria-label="Comparar duplicados como">
@@ -108,14 +140,17 @@
           <option value="telefone">Comparar: Telefone</option>
           <option value="email">Comparar: E-mail</option>
         </select>
-        <button id="btn-remover-duplicadas" class="btn btn-destaque">Remover duplicadas</button>
+        <button id="btn-remover-duplicadas" class="btn btn-destaque">Remover repetidas</button>
       </div>
     </div>
 
-    <!-- Botões de Ação Final -->
+    <!-- PASSO 3: copiar o resultado -->
     <footer class="rodape-acoes">
-      <button id="btn-limpar-tudo" class="btn btn-secundario">Limpar</button>
-      <button id="btn-copiar" class="btn btn-primario">Copiar Resultado</button>
+      <h3 class="passo"><span class="passo-num" aria-hidden="true">3</span> Copie e cole na planilha</h3>
+      <div class="rodape-botoes">
+        <button id="btn-limpar-tudo" class="btn btn-secundario">Limpar</button>
+        <button id="btn-copiar" class="btn btn-primario">Copiar Resultado</button>
+      </div>
     </footer>
 
     <!-- Notificação Flutuante -->

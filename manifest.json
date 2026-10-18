@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Formatador de Texto e Planilhas",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "minimum_chrome_version": "114",
   "description": "Painel lateral fixo para formatação rápida de textos, CPFs, telefones, e-mails e nomes para Google Planilhas e web.",
   "permissions": [
@@ -12,8 +12,17 @@
   "side_panel": {
     "default_path": "src/popup/popup.html"
   },
+  "icons": {
+    "16": "icons/icone-16.png",
+    "48": "icons/icone-48.png",
+    "128": "icons/icone-128.png"
+  },
   "action": {
-    "default_title": "Abrir Painel do Formatador"
+    "default_title": "Abrir Painel do Formatador",
+    "default_icon": {
+      "16": "icons/icone-16.png",
+      "48": "icons/icone-48.png"
+    }
   },
   "background": {
     "service_worker": "src/background/background.js",

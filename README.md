@@ -39,10 +39,10 @@ A ferramenta roda em uma **barra lateral fixa (Side Panel)**, permitindo copiar,
 ---
 
 ## 🧭 Como usar
-1. Copie os dados da planilha (`Ctrl+C`).
-2. Clique em **📋 Colar** (ou use `Ctrl+V` no campo).
-3. Clique na ação desejada e confira o resumo.
-4. Clique em **Copiar Resultado** e cole de volta na planilha.
+O painel já mostra os três passos na tela:
+1. **Cole os dados:** copie as células da planilha (`Ctrl+C`) e clique em **📋 Colar** (ou use `Ctrl+V` no campo).
+2. **Escolha o que fazer:** cada botão mostra um exemplo "antes → depois". Confira o resumo que aparece abaixo do campo.
+3. **Copie e cole na planilha:** clique em **Copiar Resultado**.
 
 ---
 
@@ -78,6 +78,7 @@ Os testes cobrem as funções de formatação (`src/utils/formatadores.js`) e a 
 ## 📁 Estrutura
 ```
 manifest.json
+icons/                       # ícones da extensão (16, 48 e 128 px)
 src/
   background/background.js   # abre o painel ao clicar no ícone
   popup/                     # interface do painel lateral (HTML, CSS, JS)
@@ -89,6 +90,11 @@ tests/                       # testes automatizados
 ---
 
 ## 📝 Histórico de versões
+- **1.3.0**
+  - Interface em 3 passos numerados (Cole → Escolha → Copie), com exemplo "antes → depois" em cada botão e nomes mais claros.
+  - Fontes maiores e melhor contraste; o painel funciona em largura estreita (botões passam para 1 coluna).
+  - Ícones da extensão (16, 48 e 128 px).
+  - Corrigido: caixa vazia de relatório aparecendo antes de qualquer ação.
 - **1.2.0**
   - Novo: botão **Padronizar e-mail**.
   - Novo: duplicados destacados por cor, relatório com problemas clicáveis, Desfazer/Refazer, seletor de coluna.
